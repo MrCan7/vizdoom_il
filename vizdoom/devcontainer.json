@@ -14,7 +14,7 @@
     "extensions": [
         "ms-python.python"
     ],
-    "forwardPorts": [8000],
+    "forwardPorts": [5029],
     "postCreateCommand": "conda activate myenv",
     "remoteUser": "root"
 }
