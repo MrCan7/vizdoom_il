@@ -24,6 +24,8 @@ RUN apt-get update && apt-get install -y \
     timidity \
     libwildmidi-dev \
     libboost-all-dev \
+    x11-apps \
+    libx11-dev \
     software-properties-common && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
