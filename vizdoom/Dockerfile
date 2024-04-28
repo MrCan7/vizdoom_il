@@ -49,10 +49,12 @@ RUN conda create -n myenv python=3.11 -y && \
 # Configure shell to activate conda environment by default
 SHELL ["conda", "run", "-n", "myenv", "/bin/bash", "-c"]
 
-# Clone and build ViZDoom
+# Clone ViZDoom and checkout the specific version
 RUN git clone https://github.com/mwydmuch/ViZDoom.git && \
-    mkdir -p ViZDoom/build && \
-    cd ViZDoom/build && \
+    cd ViZDoom && \
+    git checkout tags/1.2.3 -b version-1.2.3 && \
+    mkdir build && \
+    cd build && \
     cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_PYTHON=ON -DBUILD_JAVA=OFF .. && \
     make
 
