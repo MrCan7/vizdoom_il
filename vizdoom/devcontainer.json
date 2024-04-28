@@ -9,12 +9,31 @@
         "-v", "/tmp/.X11-unix:/tmp/.X11-unix"
     ],
     "settings": { 
-        "terminal.integrated.shell.linux": "/bin/bash"
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "terminal.integrated.profiles.linux": {
+            "bash": {
+                "path": "/bin/bash",
+                "args": ["-l"]  // Ensures a login shell
+            }
+        }
     },
     "extensions": [
-        "ms-python.python"
+        "ms-python.python",
+        "ms-vscode.cmake-tools",  // Useful for managing CMake-based projects like ViZDoom
+        "eamodio.gitlens",  // Enhanced Git integration
+        "ms-azuretools.vscode-docker"  // Manage Docker images and containers from VS Code
     ],
     "forwardPorts": [5029],
-    "postCreateCommand": "conda activate myenv",
-    "remoteUser": "root"
+    "postCreateCommand": "echo 'Container ready!'",  // A simple message; any setup commands can go here
+    "remoteUser": "vscode",
+    "features": {
+        "docker-in-docker": "latest"
+    },
+    "mounts": [  // You can specify additional mounts necessary for your development
+        "source=/path/to/local/folder,target=/path/in/container,type=bind,consistency=cached"
+    ],
+    "containerEnv": {
+        "MY_ENV_VAR": "value"  // Define environment variables if needed
+    },
+    "initializeCommand": "echo 'Initializing...'"  // Commands to run on the local machine before the container starts
 }
