@@ -66,7 +66,7 @@ RUN git clone https://github.com/mwydmuch/ViZDoom.git && \
 
 # Install ViZDoom Python bindings as the dev user
 RUN cd ViZDoom && \
-    sudo -u dev pip install .
+    pip install .
 
 # Set the working directory
 WORKDIR /workspace
