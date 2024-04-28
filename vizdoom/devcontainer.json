@@ -18,8 +18,9 @@
             "bash": {
                 "path": "/bin/bash",
                 "args": [
-                    "-l"
-                ] // Ensures a login shell
+                    "-c",
+                    "source /opt/conda/etc/profile.d/conda.sh && conda activate myenv && exec /bin/bash"
+                ] // Ensures a login shell and activates the conda environment
             }
         }
     },
