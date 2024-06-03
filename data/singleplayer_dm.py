@@ -27,7 +27,7 @@ if __name__ == "__main__":
     game.set_audio_sampling_rate(vzd.SamplingRate.SR_22050)
 
     #game.set_living_reward(-1)
-    game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
+    game.set_mode(vzd.Mode.SPECTATOR)
     #game.set_console_enabled(True)
     game.add_game_args("-record multi_rec.lmp")
 
