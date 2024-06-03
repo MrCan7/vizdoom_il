@@ -16,7 +16,7 @@ if __name__ == "__main__":
     
     game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
     game.set_screen_format(vzd.ScreenFormat.RGB24)
-    #game.set_depth_buffer_enabled(True) #may turn off
+    game.set_depth_buffer_enabled(True) #may turn off
     #game.set_labels_buffer_enabled(True)
     #game.set_automap_buffer_enabled(True)
 
@@ -27,7 +27,7 @@ if __name__ == "__main__":
     game.set_audio_sampling_rate(vzd.SamplingRate.SR_22050)
 
     #game.set_living_reward(-1)
-    game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
+    game.set_mode(vzd.Mode.SPECTATOR)
     #game.set_console_enabled(True)
     game.add_game_args("-record multi_rec.lmp")
 
