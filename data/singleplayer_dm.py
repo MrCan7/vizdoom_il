@@ -16,7 +16,7 @@ if __name__ == "__main__":
     
     game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
     game.set_screen_format(vzd.ScreenFormat.RGB24)
-    #game.set_depth_buffer_enabled(True) #may turn off
+    game.set_depth_buffer_enabled(True) #may turn off
     #game.set_labels_buffer_enabled(True)
     #game.set_automap_buffer_enabled(True)
 
