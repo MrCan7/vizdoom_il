@@ -33,23 +33,61 @@ if __name__ == "__main__":
     #game.set_living_reward(-1)
     game.set_mode(vzd.Mode.PLAYER)
     #game.set_console_enabled(True)
-    game.add_game_args("-record multi_rec.lmp")
-
-    game.add_game_args("+snd_efx 0") #add this seperately for sound. no idea why
-    game.add_game_args("+sv_respawnprotect 1")
-    game.add_game_args("+freelook 1")
-    game.add_game_args(
-        "-host 1 -deathmatch +timelimit 2.0 "
-        "+sv_forcerespawn 1 +sv_noautoaim 1 +sv_spawnfarthest 1 +sv_nocrouch 1 "
-        "+viz_respawn_delay 1 +viz_nocheat 1"
-        
-        
-    )
     
+    ## Set the game variables
     # Name your agent and select color
     # colors: 0 - green, 1 - gray, 2 - brown, 3 - red, 4 - light gray, 5 - light brown, 6 - light red, 7 - light blue
-    game.add_game_args("+name HumanPlayer +colorset 0")
-
+    # +snd_efx 0 add this seperately for sound. no idea why
+    DOOM_ENV_WITH_BOTS_ARGS_OLD = """
+    -record multi_rec.lmp
+    +snd_efx 0 
+    +sv_respawnprotect 1
+    +freelook 1
+    -host 1 
+    -deathmatch
+    +timelimit 2.0 
+    +sv_forcerespawn 1
+    +sv_noautoaim 1
+    +sv_spawnfarthest 1
+    +sv_nocrouch 1 
+    +viz_respawn_delay 1
+    +viz_nocheat 1
+    +name HumanPlayer 
+    +colorset 0
+    """
+    
+    DOOM_ENV_WITH_BOTS_ARGS = """
+    -record multi_rec.lmp
+    -host 1 
+    -deathmatch
+    +viz_nocheat 0 
+    +cl_run 1 
+    +name HumanPlayer 
+    +colorset 0 
+    +sv_forcerespawn 1 
+    +sv_respawnprotect 1 
+    +sv_nocrouch 1 
+    +sv_noexit 1 
+    +snd_efx 0 
+    +freelook 1
+    +timelimit 2.0 
+    +sv_noautoaim 1
+    +sv_spawnfarthest 1
+    +viz_respawn_delay 1
+    +viz_nocheat 1
+    """
+    # DOOM_ENV_WITH_BOTS_ARGS = """
+    # -host 1 
+    # -deathmatch 
+    # +viz_nocheat 0 
+    # +cl_run 1 
+    # +name AGENT 
+    # +colorset 0 
+    # +sv_forcerespawn 1 
+    # +sv_respawnprotect 1 
+    # +sv_nocrouch 1 
+    # +sv_noexit 1
+    # """
 
     '''
     game.add_game_args('-host 1'              # Game will start after one player connects (our bot).
@@ -60,8 +98,9 @@ if __name__ == "__main__":
                        '+sv_respawnprotect 1' # Couple of seconds on invicibility after respawning.
                        '+sv_nocrouch 1')      # Players can't crouch.
     '''
+    
+    game.add_game_args(DOOM_ENV_WITH_BOTS_ARGS)
     game.init()
-
 
     episodes = params["episodes"]
     num_bots = params["num_bots"]
