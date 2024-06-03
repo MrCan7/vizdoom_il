@@ -1,5 +1,5 @@
 params = {
     "scenario": "cig",
     "num_bots" : 8,
-    "episodes" : 10
+    "episodes" : 1
 }
