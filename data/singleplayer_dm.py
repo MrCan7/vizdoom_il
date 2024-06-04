@@ -5,14 +5,18 @@ from time import sleep
 
 if __name__ == "__main__":
     game = vzd.DoomGame()
-
+    ## Load the scenario
+    # Dirty way to get the path to the scenario folder
+    current_file_path = os.path.realpath(__file__)
+    current_directory = os.path.dirname(current_file_path)
+    scenario_directory = os.path.dirname(current_directory) + "/scenarios"
+    
     scenario = params["scenario"] + ".cfg"
-    scenario_path = os.path.join(vzd.scenarios_path, scenario)
-    #scenario_path = "/home/puren/İTÜ_DERSLER/AI/PROJECT/vizdoom_il/scenarios/cig.cfg"
-
+    scenario_path = os.path.join(scenario_directory, scenario)
     game.load_config(scenario_path)
+    
     #game.set_doom_map("map01") #limited deathmatch
-    game.set_doom_map("map02") # full deathmatch. builtin map
+    # game.set_doom_map("map02") # full deathmatch. builtin map
     
     game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
     game.set_screen_format(vzd.ScreenFormat.RGB24)
@@ -27,25 +31,62 @@ if __name__ == "__main__":
     game.set_audio_sampling_rate(vzd.SamplingRate.SR_22050)
 
     #game.set_living_reward(-1)
-    game.set_mode(vzd.Mode.SPECTATOR)
+    game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
     #game.set_console_enabled(True)
-    game.add_game_args("-record multi_rec.lmp")
-
-    game.add_game_args("+snd_efx 0") #add this seperately for sound. no idea why
-    game.add_game_args("+sv_respawnprotect 1")
-    game.add_game_args("+freelook 1")
-    game.add_game_args(
-        "-host 1 -deathmatch +timelimit 2.0 "
-        "+sv_forcerespawn 1 +sv_noautoaim 1 +sv_spawnfarthest 1 +sv_nocrouch 1 "
-        "+viz_respawn_delay 10 +viz_nocheat 1"
-        
-        
-    )
     
+    ## Set the game variables
     # Name your agent and select color
     # colors: 0 - green, 1 - gray, 2 - brown, 3 - red, 4 - light gray, 5 - light brown, 6 - light red, 7 - light blue
-    game.add_game_args("+name HumanPlayer +colorset 0")
-
+    # +snd_efx 0 add this seperately for sound. no idea why
+    DOOM_ENV_WITH_BOTS_ARGS_OLD = """
+    -record multi_rec.lmp
+    +snd_efx 0 
+    +sv_respawnprotect 1
+    +freelook 1
+    -host 1 
+    -deathmatch
+    +timelimit 2.0 
+    +sv_forcerespawn 1
+    +sv_noautoaim 1
+    +sv_spawnfarthest 1
+    +sv_nocrouch 1 
+    +viz_respawn_delay 1
+    +viz_nocheat 1
+    +name HumanPlayer 
+    +colorset 0
+    """
+    
+    DOOM_ENV_WITH_BOTS_ARGS = """
+    -record multi_rec.lmp
+    -host 1 
+    -deathmatch
+    +viz_nocheat 1 
+    +cl_run 1 
+    +name HumanPlayer 
+    +colorset 0 
+    +sv_forcerespawn 1 
+    +sv_respawnprotect 1 
+    +sv_nocrouch 1 
+    +sv_noexit 0 
+    +snd_efx 0 
+    +freelook 1
+    +timelimit 2.0 
+    +sv_noautoaim 1
+    +sv_spawnfarthest 1
+    +viz_respawn_delay 1
+    """
+    # DOOM_ENV_WITH_BOTS_ARGS = """
+    # -host 1 
+    # -deathmatch 
+    # +viz_nocheat 0 
+    # +cl_run 1 
+    # +name AGENT 
+    # +colorset 0 
+    # +sv_forcerespawn 1 
+    # +sv_respawnprotect 1 
+    # +sv_nocrouch 1 
+    # +sv_noexit 1
+    # """
 
     '''
     game.add_game_args('-host 1'              # Game will start after one player connects (our bot).
@@ -56,8 +97,9 @@ if __name__ == "__main__":
                        '+sv_respawnprotect 1' # Couple of seconds on invicibility after respawning.
                        '+sv_nocrouch 1')      # Players can't crouch.
     '''
+    
+    game.add_game_args(DOOM_ENV_WITH_BOTS_ARGS)
     game.init()
-
 
     episodes = params["episodes"]
     num_bots = params["num_bots"]
