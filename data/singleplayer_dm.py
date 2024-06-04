@@ -31,7 +31,7 @@ if __name__ == "__main__":
     game.set_audio_sampling_rate(vzd.SamplingRate.SR_22050)
 
     #game.set_living_reward(-1)
-    game.set_mode(vzd.Mode.PLAYER)
+    game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
     #game.set_console_enabled(True)
     
     ## Set the game variables
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     -record multi_rec.lmp
     -host 1 
     -deathmatch
-    +viz_nocheat 0 
+    +viz_nocheat 1 
     +cl_run 1 
     +name HumanPlayer 
     +colorset 0 
@@ -74,7 +74,6 @@ if __name__ == "__main__":
     +sv_noautoaim 1
     +sv_spawnfarthest 1
     +viz_respawn_delay 1
-    +viz_nocheat 1
     """
     # DOOM_ENV_WITH_BOTS_ARGS = """
     # -host 1 

@@ -33,7 +33,7 @@ if __name__ == "__main__":
     #game.set_audio_sampling_rate(vzd.SamplingRate.SR_22050)
 
     #game.set_living_reward(-1)
-    game.set_mode(vzd.Mode.PLAYER)
+    game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
     game.set_console_enabled(True)
     
     DOOM_ENV_WITH_BOTS_ARGS = """
