@@ -67,7 +67,7 @@ if __name__ == "__main__":
     +sv_forcerespawn 1 
     +sv_respawnprotect 1 
     +sv_nocrouch 1 
-    +sv_noexit 1 
+    +sv_noexit 0 
     +snd_efx 0 
     +freelook 1
     +timelimit 2.0 

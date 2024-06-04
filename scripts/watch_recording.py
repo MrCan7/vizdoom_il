@@ -1,6 +1,6 @@
 import vizdoom as vzd
 import os
-
+from parameters import params
 
 if __name__ == "__main__":
 
@@ -8,11 +8,15 @@ if __name__ == "__main__":
 
     game = vzd.DoomGame()
 
-    scenario = "cig.cfg"
-    scenario_path = os.path.join(vzd.scenarios_path, scenario)
-
+    ## Load the scenario
+    # Dirty way to get the path to the scenario folder
+    current_file_path = os.path.realpath(__file__)
+    current_directory = os.path.dirname(current_file_path)
+    scenario_directory = os.path.dirname(current_directory) + "/scenarios"
+    
+    scenario = params["scenario"] + ".cfg"
+    scenario_path = os.path.join(scenario_directory, scenario)
     game.load_config(scenario_path)
-
 
 
     game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
@@ -29,29 +33,38 @@ if __name__ == "__main__":
     #game.set_audio_sampling_rate(vzd.SamplingRate.SR_22050)
 
     #game.set_living_reward(-1)
-    game.set_mode(vzd.Mode.SPECTATOR)
+    game.set_mode(vzd.Mode.PLAYER)
     game.set_console_enabled(True)
+    
+    DOOM_ENV_WITH_BOTS_ARGS = """
+    -host 1 
+    -deathmatch
+    +viz_nocheat 0 
+    +cl_run 1 
+    +name HumanPlayer 
+    +colorset 0 
+    +sv_forcerespawn 1 
+    +sv_respawnprotect 1 
+    +sv_nocrouch 1 
+    +sv_noexit 0 
+    +snd_efx 0 
+    +freelook 1
+    +timelimit 2.0 
+    +sv_noautoaim 1
+    +sv_spawnfarthest 1
+    +viz_respawn_delay 1
+    +viz_nocheat 1
+    """
+    
+    game.add_game_args(DOOM_ENV_WITH_BOTS_ARGS)
 
-    game.add_game_args("+snd_efx 0") #add this seperately for sound. no idea why
-    game.add_game_args(
-        "-host 1 -deathmatch +timelimit 2.0 "
-        "+sv_forcerespawn 1 +sv_noautoaim 1 +sv_respawnprotect 1 +sv_spawnfarthest 1 +sv_nocrouch 1 "
-        "+viz_respawn_delay 10 +viz_nocheat 1"
-        
-    )
-
-    # Name your agent and select color
-    # colors: 0 - green, 1 - gray, 2 - brown, 3 - red, 4 - light gray, 5 - light brown, 6 - light red, 7 - light blue
-    game.add_game_args("+name AI +colorset 0")
-    game.add_game_args("-host 1 -deathmatch")
     game.init()
 
     game.replay_episode("multi_rec.lmp")
     while not game.is_episode_finished():
         s = game.get_state()
-
-        game.advance_action()
         a = game.get_last_action()
         r = game.get_last_reward()
+        game.advance_action()
         print(a)
     game.close()
