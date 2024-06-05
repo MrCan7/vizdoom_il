@@ -25,6 +25,7 @@ if __name__ == "__main__":
     game.set_mode(vzd.Mode.SPECTATOR)
     game.add_game_args("+freelook 1")
     #game.add_game_args("timelimit 2.0")
+    game.set_render_all_frames(True) #set this to true for now
     game.init()
 
     episodes = params["episodes"]

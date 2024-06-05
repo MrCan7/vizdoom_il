@@ -41,6 +41,7 @@ if __name__ == "__main__":
     #game.set_living_reward(-1)
     game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
     game.set_console_enabled(True)
+    game.set_render_all_frames(True)
     '''
     DOOM_ENV_WITH_BOTS_ARGS = """
     -host 1 
@@ -74,7 +75,7 @@ if __name__ == "__main__":
             frame = s.screen_buffer
             img_rgb = np.transpose(frame, (1, 2, 0))  # Convert from CHW to HWC format
             img_bgr = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
-            cv2.imwrite(f"./dataset/frame_{frame_num}.jpeg", img_bgr)
+            cv2.imwrite(f"./dataset/2/frame_{frame_num}.jpeg", img_bgr)
             frame_num +=1
 
         a = game.get_last_action()
