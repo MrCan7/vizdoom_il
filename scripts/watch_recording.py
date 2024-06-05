@@ -68,18 +68,29 @@ if __name__ == "__main__":
     game.init()
 
     game.replay_episode("episode0_rec.lmp")
-    frame_num = 0
+    if params["sample_recording"] == True: 
+        frame_num = 0
+        actions_file = open("actions.txt", "w")
+        rewards_file = open("rewards.txt", "w")
     while not game.is_episode_finished():
         s = game.get_state()
-        if params["sample_recording"] == True: #save frames
+        a = game.get_last_action()
+        r = game.get_last_reward()
+        if params["sample_recording"] == True: 
+            #save frames
             frame = s.screen_buffer
             img_rgb = np.transpose(frame, (1, 2, 0))  # Convert from CHW to HWC format
             img_bgr = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
             cv2.imwrite(f"./dataset/2/frame_{frame_num}.jpeg", img_bgr)
             frame_num +=1
 
-        a = game.get_last_action()
-        r = game.get_last_reward()
+            #save actions
+            actions_file.write(str(a)+"\n")
+
+            #save rewards
+            rewards_file.write(str(r)+"\n")
+        print(r)
         game.advance_action()
-        #print(a)
+    
+    actions_file.close()
     game.close()

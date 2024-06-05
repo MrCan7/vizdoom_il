@@ -179,4 +179,6 @@ _vizdoom.ini
 
 #ignore dataset
 dataset
+actions.txt
+rewards.txt
 # End of https://www.toptal.com/developers/gitignore/api/python
