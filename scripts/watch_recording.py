@@ -3,8 +3,6 @@ import os
 import numpy as np
 from parameters import params
 from PIL import Image
-import scipy.misc
-import time
 import cv2
 if __name__ == "__main__":
 
@@ -88,7 +86,7 @@ if __name__ == "__main__":
             depth_frame = s.depth_buffer
             cv2.imwrite(f"./dataset/depth/2/frame_{frame_num}.png", depth_frame)
             frame_num +=1
-            
+
             #save actions
             actions_file.write(str(a)+"\n")
 
@@ -97,4 +95,5 @@ if __name__ == "__main__":
         game.advance_action()
     
     actions_file.close()
+    rewards_file.close()
     game.close()
