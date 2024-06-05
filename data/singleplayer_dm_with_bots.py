@@ -16,7 +16,7 @@ if __name__ == "__main__":
     game.load_config(scenario_path)
     
     #game.set_doom_map("map01") #limited deathmatch
-    # game.set_doom_map("map02") # full deathmatch. builtin map
+    game.set_doom_map("map02") # full deathmatch. builtin map
     
     game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
     game.set_screen_format(vzd.ScreenFormat.RGB24)
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     #game.set_labels_buffer_enabled(True)
     #game.set_automap_buffer_enabled(True)
 
-    game.set_sectors_info_enabled(True)
+    #game.set_sectors_info_enabled(True)
     game.set_render_crosshair(True)
     game.set_sound_enabled(True) #they mentioned there might be some issues on ubuntu 20.04. refer https://github.com/Farama-Foundation/ViZDoom/pull/486 for more details
     #game.set_audio_buffer_enabled(True)
@@ -55,9 +55,8 @@ if __name__ == "__main__":
     +name HumanPlayer 
     +colorset 0
     """
-    
+    game.add_game_args("-record multi_rec.lmp")
     DOOM_ENV_WITH_BOTS_ARGS = """
-    -record multi_rec.lmp
     -host 1 
     -deathmatch
     +viz_nocheat 1 
@@ -70,7 +69,7 @@ if __name__ == "__main__":
     +sv_noexit 0 
     +snd_efx 0 
     +freelook 1
-    +timelimit 2.0 
+    +timelimit 1.0 
     +sv_noautoaim 1
     +sv_spawnfarthest 1
     +viz_respawn_delay 1
@@ -106,7 +105,7 @@ if __name__ == "__main__":
     
     game.add_available_button(vzd.Button.LOOK_UP_DOWN_DELTA)
 
-    print(game.get_available_buttons())
+    #print(game.get_available_buttons())
     for i in range(episodes):
         print(f"Episode #{i + 1}")
     

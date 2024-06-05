@@ -1,5 +1,5 @@
 params = {
-    "scenario": "bots_deathmatch_v1",
+    "scenario": "deathmatch",
     "num_bots" : 8,
     "episodes" : 1
 }

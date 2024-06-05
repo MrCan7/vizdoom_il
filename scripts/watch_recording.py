@@ -17,7 +17,9 @@ if __name__ == "__main__":
     scenario = params["scenario"] + ".cfg"
     scenario_path = os.path.join(scenario_directory, scenario)
     game.load_config(scenario_path)
-
+    
+    if scenario == "cig.cfg":
+        game.set_doom_map("map02")
 
     game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
     #game.set_screen_format(vzd.ScreenFormat.RGB24)
@@ -35,7 +37,7 @@ if __name__ == "__main__":
     #game.set_living_reward(-1)
     game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
     game.set_console_enabled(True)
-    
+    '''
     DOOM_ENV_WITH_BOTS_ARGS = """
     -host 1 
     -deathmatch
@@ -57,10 +59,10 @@ if __name__ == "__main__":
     """
     
     game.add_game_args(DOOM_ENV_WITH_BOTS_ARGS)
-
+    '''
     game.init()
 
-    game.replay_episode("multi_rec.lmp")
+    game.replay_episode("episode0_rec.lmp")
     while not game.is_episode_finished():
         s = game.get_state()
         a = game.get_last_action()
