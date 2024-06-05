@@ -1,7 +1,11 @@
 import vizdoom as vzd
 import os
+import numpy as np
 from parameters import params
-
+from PIL import Image
+import scipy.misc
+import time
+import cv2
 if __name__ == "__main__":
 
     recording_path = "/home/puren/İTÜ_DERSLER/AI/PROJECT/vizdoom_il/data/multi_rec.lmp"
@@ -63,10 +67,18 @@ if __name__ == "__main__":
     game.init()
 
     game.replay_episode("episode0_rec.lmp")
+    frame_num = 0
     while not game.is_episode_finished():
         s = game.get_state()
+        if params["sample_recording"] == True: #save frames
+            frame = s.screen_buffer
+            img_rgb = np.transpose(frame, (1, 2, 0))  # Convert from CHW to HWC format
+            img_bgr = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
+            cv2.imwrite(f"./dataset/frame_{frame_num}.jpeg", img_bgr)
+            frame_num +=1
+
         a = game.get_last_action()
         r = game.get_last_reward()
         game.advance_action()
-        print(a)
+        #print(a)
     game.close()

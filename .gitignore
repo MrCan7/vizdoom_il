@@ -177,4 +177,6 @@ pyrightconfig.json
 _vizdoom.ini
 *.lmp
 
+#ignore dataset
+dataset
 # End of https://www.toptal.com/developers/gitignore/api/python

@@ -16,7 +16,7 @@ if __name__ == "__main__":
     game.load_config(scenario_path)
 
     game.set_screen_resolution(vzd.ScreenResolution.RES_640X480)
-    game.set_screen_format(vzd.ScreenFormat.RGB24)
+    #game.set_screen_format(vzd.ScreenFormat.RGB24)
     game.set_depth_buffer_enabled(True) #may turn off
     game.set_render_crosshair(True)
     game.set_sound_enabled(True) #they mentioned there might be some issues on ubuntu 20.04. refer https://github.com/Farama-Foundation/ViZDoom/pull/486 for more details
