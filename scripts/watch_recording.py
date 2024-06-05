@@ -42,6 +42,7 @@ if __name__ == "__main__":
     game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
     game.set_console_enabled(True)
     game.set_render_all_frames(True)
+    game.set_depth_buffer_enabled(True)
     '''
     DOOM_ENV_WITH_BOTS_ARGS = """
     -host 1 
@@ -77,19 +78,22 @@ if __name__ == "__main__":
         a = game.get_last_action()
         r = game.get_last_reward()
         if params["sample_recording"] == True: 
-            #save frames
+            #save rgb frames
             frame = s.screen_buffer
             img_rgb = np.transpose(frame, (1, 2, 0))  # Convert from CHW to HWC format
             img_bgr = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
             cv2.imwrite(f"./dataset/2/frame_{frame_num}.jpeg", img_bgr)
+            
+            #save depth frames 
+            depth_frame = s.depth_buffer
+            cv2.imwrite(f"./dataset/depth/2/frame_{frame_num}.png", depth_frame)
             frame_num +=1
-
+            
             #save actions
             actions_file.write(str(a)+"\n")
 
             #save rewards
             rewards_file.write(str(r)+"\n")
-        print(r)
         game.advance_action()
     
     actions_file.close()
