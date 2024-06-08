@@ -31,7 +31,7 @@ if __name__ == "__main__":
     game.set_audio_sampling_rate(vzd.SamplingRate.SR_22050)
 
     #game.set_living_reward(-1)
-    game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
+    game.set_mode(vzd.Mode.SPECTATOR)
     #game.set_console_enabled(True)
     
     ## Set the game variables
@@ -60,20 +60,10 @@ if __name__ == "__main__":
     -record multi_rec.lmp
     -host 1 
     -deathmatch
-    +viz_nocheat 1 
-    +cl_run 1 
     +name HumanPlayer 
     +colorset 0 
-    +sv_forcerespawn 1 
-    +sv_respawnprotect 1 
-    +sv_nocrouch 1 
-    +sv_noexit 0 
-    +snd_efx 0 
-    +freelook 1
-    +timelimit 2.0 
-    +sv_noautoaim 1
+    +timelimit 2
     +sv_spawnfarthest 1
-    +viz_respawn_delay 1
     """
     # DOOM_ENV_WITH_BOTS_ARGS = """
     # -host 1 
@@ -110,7 +100,6 @@ if __name__ == "__main__":
     for i in range(episodes):
         print(f"Episode #{i + 1}")
     
-        #game.new_episode() 
         game.send_game_command("removebots")
         for i in range(num_bots):
             game.send_game_command("addbot")

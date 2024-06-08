@@ -33,27 +33,12 @@ if __name__ == "__main__":
     #game.set_audio_sampling_rate(vzd.SamplingRate.SR_22050)
 
     #game.set_living_reward(-1)
-    game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
+    game.set_mode(vzd.Mode.SPECTATOR)
     game.set_console_enabled(True)
     
     DOOM_ENV_WITH_BOTS_ARGS = """
     -host 1 
     -deathmatch
-    +viz_nocheat 0 
-    +cl_run 1 
-    +name HumanPlayer 
-    +colorset 0 
-    +sv_forcerespawn 1 
-    +sv_respawnprotect 1 
-    +sv_nocrouch 1 
-    +sv_noexit 0 
-    +snd_efx 0 
-    +freelook 1
-    +timelimit 2.0 
-    +sv_noautoaim 1
-    +sv_spawnfarthest 1
-    +viz_respawn_delay 1
-    +viz_nocheat 1
     """
     
     game.add_game_args(DOOM_ENV_WITH_BOTS_ARGS)
