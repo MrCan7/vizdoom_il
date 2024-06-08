@@ -15,4 +15,4 @@ if __name__ == "__main__":
 
     model = BaseModel()
     for name, param in model.named_parameters():
-        print(name, param.size())
+        print(name)
