@@ -8,11 +8,14 @@ class BaseModel(nn.Module):
 
         self.feature_extractor = models.efficientnet_b0() #initalized with imagenet1k weights on default
 
-
-
+        #keep the first 6 layers
+        self.feature_extractor.get_submodule("features")[6] = nn.Identity()
+        self.feature_extractor.get_submodule("features")[7] = nn.Identity()
+        self.feature_extractor.get_submodule("features")[8] = nn.Identity()
 
 if __name__ == "__main__":
 
     model = BaseModel()
-    for name, param in model.named_parameters():
-        print(name)
+
+
+    
