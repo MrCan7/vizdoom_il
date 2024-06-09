@@ -58,7 +58,7 @@ if __name__ == "__main__":
     game.set_render_crosshair(True)
     #game.set_window_visible(True)
     game.set_sound_enabled(True) #they mentioned there might be some issues on ubuntu 20.04. refer https://github.com/Farama-Foundation/ViZDoom/pull/486 for more details
-    game.set_audio_buffer_enabled(True)
+    #game.set_audio_buffer_enabled(True)
     #game.set_audio_sampling_rate(vzd.SamplingRate.SR_22050)
 
     #game.set_living_reward(-1)
@@ -91,57 +91,69 @@ if __name__ == "__main__":
     game.add_game_args(DOOM_ENV_WITH_BOTS_ARGS)
     '''
     game.init()
-
-    game.replay_episode("episode0_rec.lmp")
-    if params["sample_recording"] == True: 
-        frame_num = 0
-        actions_file = open("actions.txt", "w")
-        rewards_file = open("rewards.txt", "w")
-    while not game.is_episode_finished():
-        s = game.get_state()
-        a = game.get_last_action()
-        r = game.get_last_reward()
-
-   
+    recordings = os.listdir("/home/puren/İTÜ_DERSLER/AI/PROJECT/vizdoom_il/recordings")
+    print(recordings)
+    for i, file in enumerate(recordings):
+        game.replay_episode(f"./recordings/{file}")
         if params["sample_recording"] == True: 
-            
-            #save rgb frames
-            frame = s.screen_buffer
-            img_rgb = np.transpose(frame, (1, 2, 0))  # Convert from CHW to HWC format
-            img_bgr = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
-            '''
-            cv2.imwrite(f"./dataset/2/frame_{frame_num}.jpeg", img_bgr)
-            
-            #save depth frames 
-            depth_frame = s.depth_buffer
-            cv2.imwrite(f"./dataset/depth/2/frame_{frame_num}.png", depth_frame)
+            frame_num = 0
+            if not os.path.exists(f"./dataset/actions/{i}"):
+                os.makedirs(f"./dataset/actions/{i}")
+            if not os.path.exists(f"./dataset/rewards/{i}"):
+                os.makedirs(f"./dataset/rewards/{i}")
+            if not os.path.exists(f"./dataset/rgb/{i}"):
+                os.makedirs(f"./dataset/rgb/{i}")
+            if not os.path.exists(f"./dataset/depth/{i}"):
+                os.makedirs(f"./dataset/depth/{i}")
 
-            #save actions
-            actions_file.write(str(a)+"\n")
+            actions_file = open(f"./dataset/actions/{i}/actions.txt", "w")
+            rewards_file = open(f"./dataset/rewards/{i}/rewards.txt", "w")
+        while not game.is_episode_finished():
+            s = game.get_state()
+            a = game.get_last_action()
+            r = game.get_last_reward()
 
-            #save rewards
-            rewards_file.write(str(r)+"\n")
-            '''
-            #save label buffer
-            screen = s.screen_buffer
-            print(screen.shape)
-            
-            labels_buff = s.labels_buffer
-            labels = s.labels
-            for label in labels:
-                draw_bounding_box(
-                    img_bgr,
-                    label.x,
-                    label.y,
-                    label.width,
-                    label.height,
-                    doom_blue_color,
-                )     
-            
-            cv2.imwrite(f"./dataset/labels/2/frame_{frame_num}.jpeg", img_bgr)
-            frame_num +=1
-        game.advance_action()
     
-    actions_file.close()
-    rewards_file.close()
+            if params["sample_recording"] == True: 
+                
+                #save rgb frames
+                frame = s.screen_buffer
+                img_rgb = np.transpose(frame, (1, 2, 0))  # Convert from CHW to HWC format
+                img_bgr = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
+                
+                cv2.imwrite(f"./dataset/rgb/{i}/frame_{frame_num}.jpeg", img_bgr)
+                
+                #save depth frames 
+                depth_frame = s.depth_buffer
+                cv2.imwrite(f"./dataset/depth/{i}/frame_{frame_num}.png", depth_frame)
+
+                #save actions
+                actions_file.write(str(a)+"\n")
+
+                #save rewards
+                rewards_file.write(str(r)+"\n")
+                '''
+                #save label buffer
+                screen = s.screen_buffer
+                print(screen.shape)
+                
+                labels_buff = s.labels_buffer
+                labels = s.labels
+                for label in labels:
+                    draw_bounding_box(
+                        img_bgr,
+                        label.x,
+                        label.y,
+                        label.width,
+                        label.height,
+                        doom_blue_color,
+                    )     
+                
+                cv2.imwrite(f"./dataset/labels/2/frame_{frame_num}.jpeg", img_bgr)
+                '''
+                frame_num +=1
+            game.advance_action()
+        
+        actions_file.close()
+        rewards_file.close()
     game.close()

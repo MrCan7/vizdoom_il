@@ -34,13 +34,14 @@ if __name__ == "__main__":
     game.init()
     game.send_game_command("removebots")
 
+
     episodes = params["episodes"]
     for i in range(episodes):
 
         # new_episode can record the episode using Doom's demo recording functionality to given file.
         # Recorded episodes can be reconstructed with perfect accuracy using different rendering settings.
         # This can not be used to record episodes in multiplayer mode.
-        game.new_episode(f"./recordings/episode{i}_rec.lmp")
+        game.new_episode(f"./recordings/puren_episode{i}_rec.lmp")
 
         while not game.is_episode_finished():
             s = game.get_state()
