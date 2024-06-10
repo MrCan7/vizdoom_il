@@ -72,7 +72,7 @@ def get_train_val_test():
         actions = read_actions(actions_path, idx)
         ep_id = os.path.basename(curr_ep_path)
         if STACK_SECONDS == True:
-            stacked_secs = 3 
+            stacked_secs = 1 
             for i in range(0, len(imgs)-(35*stacked_secs), stacked_secs*35):
                 img = imgs[i: i+(stacked_secs*35)]
                 action = actions[i : i+(stacked_secs*35)]
@@ -105,10 +105,10 @@ def get_train_val_test():
         
         
     df = pd.DataFrame.from_dict(data)    
-    df_train, df_test = train_test_split(df, test_size=0.2, shuffle=True, random_state=42)
-    df_train, df_val = train_test_split(df_train, test_size=0.1, shuffle=True, random_state=42)
+    df_train, df_test = train_test_split(df, test_size=0.1, shuffle=True, random_state=42)
+    #df_train, df_val = train_test_split(df_train, test_size=0.1, shuffle=True, random_state=42)
 
-    return df_train,df_val,df_test
+    return df_train,df_test
 if __name__ =="__main__":
     '''
     df_train, df_val, df_test = get_train_val_test()

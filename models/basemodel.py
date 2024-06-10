@@ -26,22 +26,19 @@ class BaseModel(nn.Module):
         x = x.view(b*t, c, h, w)
 
         x = self.feature_extractor(x)
-        print(x.shape)
         _, c, h,w = x.shape
         x= x.view(b,t,c,h,w)
         layer_outputs , last_states = self.conv_lstm(x)
-        #take the output of the last layer
-        lstm_out = layer_outputs[0][:, -1, :, :, :]
-        print(lstm_out.shape)
-
-        lstm_out = torch.flatten(lstm_out, 1)
-
+        #take the output of every layer
+        lstm_out = layer_outputs[0]#[:, -1, :, :, :]
+        lstm_out = torch.flatten(lstm_out, 2)
+        
         wasd_out = self.act(self.fc_out_wasd(lstm_out))
         mouse_LR_out = self.out_mouse_LR(lstm_out) 
         mouse_UD_out = self.out_mouse_UD(lstm_out)
-        shoot_out = self.shoot(lstm_out)
-        print(wasd_out)
-        return x 
+        mouse_shoot_out = self.act(self.shoot(lstm_out))
+
+        return wasd_out,mouse_LR_out, mouse_UD_out, mouse_shoot_out      
 if __name__ == "__main__":
     x = torch.rand((1,2, 3, 224, 224))
     #print(x.shape)

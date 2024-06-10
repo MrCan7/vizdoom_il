@@ -84,8 +84,8 @@ class VizDoomData(Dataset):
                 color_jitter.hue)
 
         img_batch = torch.stack([self.load_img(idx, color_transform) for idx in imgs])
-        img_batch = img_batch.reshape(3, 35, 3, 224,224) #secs, frames, channels, h, w 
+        img_batch = img_batch.reshape(1* 35, 3, 224,224) #secs, frames, channels, h, w 
         #TODO PARAMETERIZE THIS LATER!!!
-        actions = torch.tensor(actions).reshape(3,35,7)
+        actions = torch.tensor(actions).reshape(1* 35,7)
 
         return img_batch , actions
