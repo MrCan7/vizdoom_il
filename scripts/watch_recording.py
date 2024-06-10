@@ -57,13 +57,14 @@ if __name__ == "__main__":
     game.set_sectors_info_enabled(True)
     game.set_render_crosshair(True)
     #game.set_window_visible(True)
-    game.set_sound_enabled(True) #they mentioned there might be some issues on ubuntu 20.04. refer https://github.com/Farama-Foundation/ViZDoom/pull/486 for more details
+    #game.set_sound_enabled(True) #they mentioned there might be some issues on ubuntu 20.04. refer https://github.com/Farama-Foundation/ViZDoom/pull/486 for more details
     #game.set_audio_buffer_enabled(True)
     #game.set_audio_sampling_rate(vzd.SamplingRate.SR_22050)
 
     #game.set_living_reward(-1)
     game.set_mode(vzd.Mode.ASYNC_SPECTATOR)
-    game.set_console_enabled(True)
+    #game.set_console_enabled(True)
+    game.set_window_visible(False)
     game.set_render_all_frames(True)
     game.set_depth_buffer_enabled(True)
     game.set_labels_buffer_enabled(True)
@@ -91,23 +92,24 @@ if __name__ == "__main__":
     game.add_game_args(DOOM_ENV_WITH_BOTS_ARGS)
     '''
     game.init()
-    recordings = os.listdir("/home/puren/İTÜ_DERSLER/AI/PROJECT/vizdoom_il/recordings")
+    recordings = os.listdir("/home/stannis/puren/dataset/vizdoom/recordings")
     print(recordings)
-    for i, file in enumerate(recordings):
-        game.replay_episode(f"./recordings/{file}")
+    i = 5
+    for file in recordings:
+        game.replay_episode(f"/home/stannis/puren/dataset/vizdoom/recordings/{file}")
         if params["sample_recording"] == True: 
             frame_num = 0
-            if not os.path.exists(f"./dataset/actions/{i}"):
-                os.makedirs(f"./dataset/actions/{i}")
-            if not os.path.exists(f"./dataset/rewards/{i}"):
-                os.makedirs(f"./dataset/rewards/{i}")
-            if not os.path.exists(f"./dataset/rgb/{i}"):
-                os.makedirs(f"./dataset/rgb/{i}")
-            if not os.path.exists(f"./dataset/depth/{i}"):
-                os.makedirs(f"./dataset/depth/{i}")
+            if not os.path.exists(f"/home/stannis/puren/dataset/vizdoom/dataset/actions/{i}"):
+                os.makedirs(f"/home/stannis/puren/dataset/vizdoom/dataset/actions/{i}")
+            if not os.path.exists(f"/home/stannis/puren/dataset/vizdoom/dataset/rewards/{i}"):
+                os.makedirs(f"/home/stannis/puren/dataset/vizdoom/dataset/rewards/{i}")
+            if not os.path.exists(f"/home/stannis/puren/dataset/vizdoom/dataset/rgb/{i}"):
+                os.makedirs(f"/home/stannis/puren/dataset/vizdoom/dataset/rgb/{i}")
+            if not os.path.exists(f"/home/stannis/puren/dataset/vizdoom/dataset/depth/{i}"):
+                os.makedirs(f"/home/stannis/puren/dataset/vizdoom/dataset/depth/{i}")
 
-            actions_file = open(f"./dataset/actions/{i}/actions.txt", "w")
-            rewards_file = open(f"./dataset/rewards/{i}/rewards.txt", "w")
+            actions_file = open(f"/home/stannis/puren/dataset/vizdoom/dataset/actions/{i}/actions.txt", "w")
+            rewards_file = open(f"/home/stannis/puren/dataset/vizdoom/dataset/rewards/{i}/rewards.txt", "w")
         while not game.is_episode_finished():
             s = game.get_state()
             a = game.get_last_action()
@@ -121,11 +123,11 @@ if __name__ == "__main__":
                 img_rgb = np.transpose(frame, (1, 2, 0))  # Convert from CHW to HWC format
                 img_bgr = cv2.cvtColor(img_rgb, cv2.COLOR_RGB2BGR)
                 
-                cv2.imwrite(f"./dataset/rgb/{i}/frame_{frame_num}.jpeg", img_bgr)
+                cv2.imwrite(f"/home/stannis/puren/dataset/vizdoom/dataset/rgb/{i}/frame_{frame_num}.jpeg", img_bgr)
                 
                 #save depth frames 
                 depth_frame = s.depth_buffer
-                cv2.imwrite(f"./dataset/depth/{i}/frame_{frame_num}.png", depth_frame)
+                cv2.imwrite(f"/home/stannis/puren/dataset/vizdoom/dataset/depth/{i}/frame_{frame_num}.png", depth_frame)
 
                 #save actions
                 actions_file.write(str(a)+"\n")
@@ -156,4 +158,5 @@ if __name__ == "__main__":
         
         actions_file.close()
         rewards_file.close()
+        i += 1
     game.close()
