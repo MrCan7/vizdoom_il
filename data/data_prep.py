@@ -3,7 +3,6 @@ import glob
 import pandas as pd 
 import re
 from sklearn.model_selection import train_test_split
-
 rgb_path = "/home/stannis/puren/dataset/vizdoom/dataset/rgb"
 actions_path = "/home/stannis/puren/dataset/vizdoom/dataset/actions"
 
@@ -66,7 +65,6 @@ def get_train_val_test():
     rgb_data = next(os.walk(rgb_path))[1]
 
     for idx in rgb_data: 
-        print(idx)
         curr_ep_path = os.path.join(rgb_path, idx)
         imgs = glob.glob(os.path.join(curr_ep_path, "*.jpeg"))
         imgs.sort(key=natural_keys)
@@ -112,5 +110,9 @@ def get_train_val_test():
 
     return df_train,df_val,df_test
 if __name__ =="__main__":
+    '''
     df_train, df_val, df_test = get_train_val_test()
-    print(df_train)
+    data = VizDoomData(df_train)
+    print(data[1])
+    '''
+    pass

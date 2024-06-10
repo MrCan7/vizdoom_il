@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models as models 
 
-from convLSTM import ConvLSTM
+from models.convLSTM import ConvLSTM
 #from efficientnet_pytorch import EfficientNet
 
 class BaseModel(nn.Module):
@@ -17,7 +17,9 @@ class BaseModel(nn.Module):
         self.fc = nn.Linear(hidden_dim, action_size)
 
         self.fc_out_wasd = nn.Linear(hidden_dim* 14*14, 4) #output for wasd 
-        self.out_mouse = nn.Linear(hidden_dim* 14*14 , 2 )#output for mouse
+        self.out_mouse_LR = nn.Linear(hidden_dim* 14*14 , 1 )#output for mouse Left Right Delta
+        self.out_mouse_UD = nn.Linear(hidden_dim* 14*14 , 1 )#output for mouse
+        self.shoot = nn.Linear(hidden_dim* 14*14 , 1 )#output for shooting
         self.act = torch.nn.Sigmoid()
     def forward(self, x):
         b, t, c, h, w = x.shape
@@ -35,6 +37,9 @@ class BaseModel(nn.Module):
         lstm_out = torch.flatten(lstm_out, 1)
 
         wasd_out = self.act(self.fc_out_wasd(lstm_out))
+        mouse_LR_out = self.out_mouse_LR(lstm_out) 
+        mouse_UD_out = self.out_mouse_UD(lstm_out)
+        shoot_out = self.shoot(lstm_out)
         print(wasd_out)
         return x 
 if __name__ == "__main__":
